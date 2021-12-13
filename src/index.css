@@ -15,11 +15,13 @@ html, body{
 }
 #header{
   width: 100%;
-  background-color: #0C8080;
+  background: rgb(12,128,128);
+  background: linear-gradient(356deg, rgba(12,128,128,1) 0%, rgba(24,65,65,1) 100%);
   padding-top: 20px;
   padding-bottom: 20px;
   display: flex;
   justify-content: flex-end;
+  color: white;
 }
 #headerTabs{
   margin-right: 10px;
@@ -54,6 +56,7 @@ html, body{
   width: 80%;
   height: 70%;
   border-spacing: 0;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 .square_sudoku{
   outline: 2px solid black;
@@ -71,6 +74,7 @@ html, body{
   left: 50%;
   transform: translate(-50%, -50%);
   border-spacing: 0;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 #sort_container{
   position: absolute;
@@ -79,15 +83,96 @@ html, body{
   transform: translate(-50%, -50%);
   width: 80%;
   height: 70%;
-  border: 1px solid black;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
   padding: 20px;
   padding-top: 0px;
+  background: #e8ecec;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
-.sort_column{
-  border: 1px solid black;
+.sortColumn{
   width: 10px;
   background-color: #7fb1e0;
+  color: transparent;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  margin: 5px;
+  margin-top: 0;
+}
+#grid_1{
+  width: 45%;
+  border-spacing: 0;
+}
+#grid_2{
+  width: 45%;
+  border-spacing: 0;
+}
+.algoHeader{
+  width: 80%;
+  background-color: teal;
+  height: 80px;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 45px;
+  padding: 10px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 10px;
+}
+.headerButton{
+  height: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#algorithm_form{
+  top: 50%;
+  transform: translateY(-30%);
+}
+#algorithm_form_1{
+  position: absolute;
+  top: 22%;
+  left: 30%;
+  transform: translateX(-30%);
+}
+#algorithm_form_2{
+  position: absolute;
+  top: 22%;
+  left: 71%;
+  transform: translateX(-65%);
+}
+#comparator_grid_container{
+  position: absolute;
+  top: 62%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 70%;
+  display: flex;
+  justify-content: space-around;
+}
+#comparator_container{
+  height: 70%;
+  display: flex;
+  justify-content: space-around;
+  margin: 120px;
+  margin-top: 20px;
+}
+.sort_container_compare{
+  width: 45%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding: 20px;
+  padding-top: 0px;
+  background: #e8ecec;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+#algorithm_chooser{
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 170px;
+}
+#screen_pointers{
+  display: none;
 }

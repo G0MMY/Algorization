@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { History } from "history";
-import Header from "./Header";
-import Grid from "./Grid";
+import Header from "../Header";
+import Grid from "../Grid";
+import {solver, visualization_array } from "./solver";
 
+const speed = 50;
 const length = 9;
 const sudoku = [
     [5, 3, 0, 0, 7, 0, 0, 0, 0],
@@ -14,7 +16,7 @@ const sudoku = [
     [0, 6, 0, 0, 0, 0, 2, 8, 0],
     [0, 0, 0, 4, 1, 9, 0, 0, 5],
     [0, 0, 0, 0, 8, 0, 0, 7, 9]
-]
+];
 
 interface Props{
     history: History
@@ -23,6 +25,7 @@ interface Props{
 export default function Backtracking(props: Props){
 
     const [grid, setGrid] = useState([<></>]);
+    const [numberGrid, setNumberGrid] = useState(sudoku)
 
     const makeRow = (length: number, row_number:number)=>{
         let row = [];
@@ -45,11 +48,36 @@ export default function Backtracking(props: Props){
 
     useEffect(()=>{
         makeGrid();
-    })
+    },[]);
+
+    const solutionVisualization = ()=>{
+        solver(numberGrid)
+        let i = 0
+        visualization_array.forEach((elem)=>{
+            i += 1;
+            (function(index:number) {
+                setTimeout(function() { 
+                    if (elem.ascend){
+                        document.getElementById(elem.row+","+elem.col + " sudoku")!.style.outlineColor = "green"
+                        document.getElementById(elem.row+","+elem.col + " sudoku")!.textContent = JSON.stringify(elem.value)
+                    } else {
+                        document.getElementById(elem.row+","+elem.col + " sudoku")!.style.outlineColor = "red"
+                        document.getElementById(elem.row+","+elem.col + " sudoku")!.textContent = ""
+                    } 
+                }, index*speed);
+            })(i);
+        })
+    }
+
+    const reload = ()=>{
+        makeGrid();
+    }
 
     return (
         <div>
             <Header nav={props} tab={3}/>
+            <button id="backtracking" name="backtracking" onClick={solutionVisualization}>Backtracking Visualization</button>
+            <button id="reload" onClick={reload}>Reload</button>
             <Grid id='sudoku' grid={grid}/>
         </div>
     );
