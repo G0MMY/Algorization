@@ -3,7 +3,7 @@ interface Viz{
     second: string
 }
 
-export const insertionSort = (jsxArray: JSX.Element[]) => {
+export const insertionSort = (jsxArray: JSX.Element[], tab: number) => {
     let visualization: Viz[] = [];
 
     for (let i=0;i<jsxArray.length;i++){
@@ -19,14 +19,14 @@ export const insertionSort = (jsxArray: JSX.Element[]) => {
             j -= 1;
         }
     }
-    play(visualization);
+    play(visualization, tab);
 }
 
 export const height = (num: number, array: number[]) => {
     return (930 / Math.max(...array) - 2) * num + 5;
 }
 
-export const play = (visualization: Viz[])=>{
+export const play = (visualization: Viz[], tab: number)=>{
     let i = 0;
     document.getElementById('root')!.style.pointerEvents = 'none';
     
@@ -37,13 +37,30 @@ export const play = (visualization: Viz[])=>{
             document.getElementById(elem.first)!.style.height = document.getElementById(elem.second)!.style.height;
             document.getElementById(elem.second)!.style.height = temp;
         }, i * 50);
-    })
+    });
+
+    const doc = document.getElementById('screen_pointers')!
+    if (tab === 1 || tab === 2){
+        if (doc.textContent === null){
+            doc.textContent = JSON.stringify(i)
+        } else if (doc.textContent === '' || i > parseInt(doc.textContent)){
+            doc.textContent = JSON.stringify(i)
+        }
+    }
+
     setTimeout(()=>{
-        document.getElementById('root')!.style.pointerEvents = 'auto';
+        if (tab === 1 || tab === 2){
+            if (doc.textContent !== null && i === parseInt(doc.textContent)){
+                document.getElementById('app')!.style.pointerEvents = 'auto';
+                doc.textContent = '0';
+            }
+        } else {
+            document.getElementById('app')!.style.pointerEvents = 'auto';
+        }
     }, i * 50);
 }
 
-export const bubbleSort = (jsxArray: JSX.Element[]) => {
+export const bubbleSort = (jsxArray: JSX.Element[], tab: number) => {
     let visualization: Viz[] = [];
     let swapped = true;
 
@@ -62,10 +79,10 @@ export const bubbleSort = (jsxArray: JSX.Element[]) => {
             }
         }
     }   
-    play(visualization);
+    play(visualization, tab);
 }
 
-export const selectionSort = (jsxArray: JSX.Element[]) => {
+export const selectionSort = (jsxArray: JSX.Element[], tab: number) => {
     let visualization: Viz[] = [];
 
     for (let i=0;i<jsxArray.length;i++){
@@ -85,10 +102,10 @@ export const selectionSort = (jsxArray: JSX.Element[]) => {
             jsxArray[smaller] = <div className="sortColumn" id={jsxArray[smaller].props.id}>{temp.props.children}</div>;
         }
     }
-    play(visualization);
+    play(visualization, tab);
 }
 
-export const quickSort = (jsxArray: JSX.Element[]) => {
+export const quickSort = (jsxArray: JSX.Element[], tab: number) => {
     let visualization: Viz[] = [];
 
     const partition = (low: number, high: number) => {
@@ -129,5 +146,5 @@ export const quickSort = (jsxArray: JSX.Element[]) => {
 
     sort(0, jsxArray.length - 1);
 
-    play(visualization);
+    play(visualization, tab);
 }

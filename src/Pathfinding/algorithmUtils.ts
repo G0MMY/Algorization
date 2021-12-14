@@ -51,7 +51,6 @@ export const play = (visualizer: Visualizer[], grid_number:string)=>{
         } else {
             document.getElementById('app')!.style.pointerEvents = 'auto'
         }
-        
     }, i * 4)
 }
 

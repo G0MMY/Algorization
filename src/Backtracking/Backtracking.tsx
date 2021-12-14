@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { History } from "history";
 import Header from "../Header";
 import Grid from "../Grid";
 import {solver, visualization_array } from "./solver";
+import { Button } from "@mui/material";
+import { setTimeout } from "timers";
 
 const speed = 50;
 const length = 9;
@@ -25,7 +27,8 @@ interface Props{
 export default function Backtracking(props: Props){
 
     const [grid, setGrid] = useState([<></>]);
-    const [numberGrid, setNumberGrid] = useState(sudoku)
+    const [numberGrid, setNumberGrid] = useState(sudoku);
+    const time = useRef<ReturnType<typeof setTimeout>[]>([]);
 
     const makeRow = (length: number, row_number:number)=>{
         let row = [];
@@ -51,22 +54,38 @@ export default function Backtracking(props: Props){
     },[]);
 
     const solutionVisualization = ()=>{
-        solver(numberGrid)
-        let i = 0
-        visualization_array.forEach((elem)=>{
-            i += 1;
-            (function(index:number) {
-                setTimeout(function() { 
-                    if (elem.ascend){
-                        document.getElementById(elem.row+","+elem.col + " sudoku")!.style.outlineColor = "green"
-                        document.getElementById(elem.row+","+elem.col + " sudoku")!.textContent = JSON.stringify(elem.value)
-                    } else {
-                        document.getElementById(elem.row+","+elem.col + " sudoku")!.style.outlineColor = "red"
-                        document.getElementById(elem.row+","+elem.col + " sudoku")!.textContent = ""
-                    } 
-                }, index*speed);
-            })(i);
-        })
+        if (time.current.length === 0){
+            solver(numberGrid);
+            let i = 0;
+            visualization_array.forEach((elem)=>{
+                i += 1;
+                (function(index:number) {
+                    time.current.push(setTimeout(function() { 
+                        if (elem.ascend){
+                            document.getElementById(elem.row+","+elem.col + " sudoku")!.style.outlineColor = "green";
+                            document.getElementById(elem.row+","+elem.col + " sudoku")!.textContent = JSON.stringify(elem.value);
+                        } else {
+                            document.getElementById(elem.row+","+elem.col + " sudoku")!.style.outlineColor = "red";
+                            document.getElementById(elem.row+","+elem.col + " sudoku")!.textContent = "";
+                        } 
+                    }, index*speed));
+                })(i);
+            });
+            let doc = document.getElementById('backtracking');
+            if (doc !== null){
+                doc.textContent = "Pause"
+                doc.style.backgroundColor = '#DC004E';
+            }
+        } else {
+            let doc = document.getElementById('backtracking');
+            if (doc !== null){
+                doc.textContent = "Backtracking Visualization";
+                doc.style.backgroundColor = '#1976D2';
+            }
+            time.current.forEach((id)=>{
+                clearTimeout(id);
+            })
+        }
     }
 
     const reload = ()=>{
@@ -76,8 +95,10 @@ export default function Backtracking(props: Props){
     return (
         <div>
             <Header nav={props} tab={3}/>
-            <button id="backtracking" name="backtracking" onClick={solutionVisualization}>Backtracking Visualization</button>
-            <button id="reload" onClick={reload}>Reload</button>
+            <div className="algoHeader">
+                <Button id="backtracking" className="headerButton" variant='contained' name="backtracking" onClick={solutionVisualization}>Backtracking Visualization</Button>
+                <Button id="reload" className="headerButton" color="secondary" variant='contained' onClick={reload}>Reload</Button>
+            </div>
             <Grid id='sudoku' grid={grid}/>
         </div>
     );

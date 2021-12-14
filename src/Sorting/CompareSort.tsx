@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { History as hs } from 'history';
 import Header from "../Header";
-import { FormControl, MenuItem, Select, Button, InputLabel, SelectChangeEvent } from '@mui/material';
+import { FormControl, MenuItem, Select, Button, InputLabel, SelectChangeEvent, Modal } from '@mui/material';
 import { insertionSort, bubbleSort, selectionSort, quickSort, height } from "./sortUtil";
 
 interface Props{
@@ -14,8 +14,10 @@ export default function CompareSort(props: Props){
     const [jsxArray1, setJsxArray1] = useState<JSX.Element[]>([]);
     const [jsxArray2, setJsxArray2] = useState<JSX.Element[]>([]);
     const [algorithm1, setAlgorithm1] = useState('insert');
-    const [algorithm2, setAlgorithm2] = useState('insert');
+    const [algorithm2, setAlgorithm2] = useState('bubble');
     const numberArray = useRef<number[]>([]);
+    const [modal, setModal] = useState(false);
+    const [modalPage, setModalPage] = useState(0);
 
     const sortButton = () => {
         let button = document.getElementById('sort')!;
@@ -31,80 +33,80 @@ export default function CompareSort(props: Props){
                 case 'insert':
                     switch(algorithm2){
                         case 'insert':
-                            insertionSort(jsxArray1);
-                            insertionSort(jsxArray2);
+                            insertionSort(jsxArray1, 1);
+                            insertionSort(jsxArray2, 2);
                             break;
                         case 'bubble':
-                            insertionSort(jsxArray1);
-                            bubbleSort(jsxArray2);
+                            insertionSort(jsxArray1, 1);
+                            bubbleSort(jsxArray2, 2);
                             break;
                         case 'select':
-                            insertionSort(jsxArray1);
-                            selectionSort(jsxArray2);
+                            insertionSort(jsxArray1, 1);
+                            selectionSort(jsxArray2, 2);
                             break;
                         case 'quick':
-                            insertionSort(jsxArray1);
-                            quickSort(jsxArray2);
+                            insertionSort(jsxArray1, 1);
+                            quickSort(jsxArray2, 2);
                             break;
                     }
                     break;
                 case 'bubble':
                     switch(algorithm2){
                         case 'insert':
-                            bubbleSort(jsxArray1);
-                            insertionSort(jsxArray2);
+                            bubbleSort(jsxArray1, 1);
+                            insertionSort(jsxArray2, 2);
                             break;
                         case 'bubble':
-                            bubbleSort(jsxArray1);
-                            bubbleSort(jsxArray2);
+                            bubbleSort(jsxArray1, 1);
+                            bubbleSort(jsxArray2, 2);
                             break;
                         case 'select':
-                            bubbleSort(jsxArray1);
-                            selectionSort(jsxArray2);
+                            bubbleSort(jsxArray1, 1);
+                            selectionSort(jsxArray2, 2);
                             break;
                         case 'quick':
-                            bubbleSort(jsxArray1);
-                            quickSort(jsxArray2);
+                            bubbleSort(jsxArray1, 1);
+                            quickSort(jsxArray2, 2);
                             break;
                     }
                     break;
                 case 'select':
                     switch(algorithm2){
                         case 'insert':
-                            selectionSort(jsxArray1);
-                            insertionSort(jsxArray2);
+                            selectionSort(jsxArray1, 1);
+                            insertionSort(jsxArray2, 2);
                             break;
                         case 'bubble':
-                            selectionSort(jsxArray1);
-                            bubbleSort(jsxArray2);
+                            selectionSort(jsxArray1, 1);
+                            bubbleSort(jsxArray2, 2);
                             break;
                         case 'select':
-                            selectionSort(jsxArray1);
-                            selectionSort(jsxArray2);
+                            selectionSort(jsxArray1, 1);
+                            selectionSort(jsxArray2, 2);
                             break;
                         case 'quick':
-                            selectionSort(jsxArray1);
-                            quickSort(jsxArray2);
+                            selectionSort(jsxArray1, 1);
+                            quickSort(jsxArray2, 2);
                             break;
                     }
                     break;
                 case 'quick':
                     switch(algorithm2){
                         case 'insert':
-                            quickSort(jsxArray1);
-                            insertionSort(jsxArray2);
+                            quickSort(jsxArray1, 1);
+                            insertionSort(jsxArray2, 2);
                             break;
                         case 'bubble':
-                            quickSort(jsxArray1);
-                            bubbleSort(jsxArray2);
+                            quickSort(jsxArray1, 1);
+                            bubbleSort(jsxArray2, 2);
                             break;
                         case 'select':
-                            quickSort(jsxArray1);
-                            selectionSort(jsxArray2);
+                            quickSort(jsxArray1, 1);
+                            selectionSort(jsxArray2, 2);
                             break;
                         case 'quick':
-                            quickSort(jsxArray1);
-                            quickSort(jsxArray2);
+                            quickSort(jsxArray1, 1);
+                            quickSort(jsxArray2, 2);
                             break;
                     }
                     break;
@@ -125,6 +127,11 @@ export default function CompareSort(props: Props){
             }
             text(numberArray.current);
             modifyHeight(numberArray.current);
+            let button = document.getElementById('sort')
+            if (button !== null && button.textContent === 'Reset'){
+                button.style.backgroundColor = '#1976D2';
+                button.textContent = 'Sort';
+            }
         }
     }
 
@@ -168,6 +175,98 @@ export default function CompareSort(props: Props){
         numberArray.current = temp;
     },[]);
 
+    const handleModal = () => {
+        if (modal){
+            setModalPage(0);
+        }
+        setModal(!modal);
+        changeArrayButton();
+        let button = document.getElementById('sort')!
+        button.style.backgroundColor = '#1976D2';
+        button.textContent = 'Sort';
+    }
+
+    const nextClick = () => {
+        setModalPage(modalPage + 1);
+    }
+
+    const previousClick = () => {
+        setModalPage(modalPage -1);
+    }
+
+    const modalDisplay = () => {
+        if (modalPage === 0){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Welcome to the compare sorting algorithm feature!</b>
+                    <p id='sortModalIntro'>This is a little tutorial to help you understand how to use this feature.</p>
+                    <p id='sortModalPhrase'>If you don't want to do it, press the "Skip Tutorial" button. Otherwise, press "Next" to continue.</p>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 1){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Piking an algorithm</b>
+                    <p id='sortModalIntro'>Choose different algorithms from the algorithm dropdowns.</p>
+                    <img id='sortDropoutImg' src='/images/sortDropout.png'/>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 2){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Algorithms overview</b>
+                    <p id='sortModalIntro'>All sorting algorithms are different in their own way.</p>
+                    <p><b>Insertition Sort:</b> This is a very simple algorithm that builds the final array by inserting the new values, at the right place, one by one.</p>
+                    <p><b>Bubble Sort:</b> This algorithm compares each value of the array with its neighbor and switch them if they are not in the right order. </p>
+                    <p><b>Selection Sort:</b> This algorithm sorts an array by repeatedly finding the minimum element of the unsorted array and puts it in the sorted array.</p>
+                    <p><b>Quick Sort:</b> This algorithm is a Divide and Conquer algorithm. It picks an element as pivot and slices the array in two. It then sorts the two partitions before putting them back together.</p> 
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 3){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Visualize and more</b>
+                    <p id='sortModalIntro'>You can know visualize, change the array or stop comparing two algorithms together.</p>
+                    <img id='sortHeaderImg' src='/images/sortCompareHeader.png'/>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 4){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Have Fun!</b>
+                    <p id='sortModalIntro'>I hope this tutorial helped you understand how this sorting visualization tool works.</p>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={handleModal}>Finish</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        }
+        return (
+            <></>
+        )
+    }
+
     return (
         <div id='app'>
             <Header nav={props} tab={2}/>
@@ -181,11 +280,14 @@ export default function CompareSort(props: Props){
                 <Button className="headerButton" variant='contained' onClick={compareButton}>
                     Stop Compare
                 </Button>
+                <Button className="headerButton" variant='contained' color='secondary' onClick={handleModal}>
+                    Help
+                </Button>
             </div>
             <div id="algorithm_chooser">
                 <FormControl>
                     <InputLabel id="algorithm_selecter">Algorithm</InputLabel>
-                    <Select labelId="algorithm_selecter" id="label" value={algorithm1} onChange={(e)=>{handleAlgorithmChange(e, 1)}}>
+                    <Select labelId="algorithm_selecter" value={algorithm1} onChange={(e)=>{handleAlgorithmChange(e, 1)}}>
                         <MenuItem value="insert">Insertion Sort</MenuItem>
                         <MenuItem value="bubble">Bubble Sort</MenuItem>
                         <MenuItem value="select">Selection Sort</MenuItem>
@@ -194,7 +296,7 @@ export default function CompareSort(props: Props){
                 </FormControl>
                 <FormControl>
                     <InputLabel id="algorithm_selecter">Algorithm</InputLabel>
-                    <Select labelId="algorithm_selecter" id="label" value={algorithm2} onChange={(e)=>{handleAlgorithmChange(e, 2)}}>
+                    <Select labelId="algorithm_selecter" value={algorithm2} onChange={(e)=>{handleAlgorithmChange(e, 2)}}>
                         <MenuItem value="insert">Insertion Sort</MenuItem>
                         <MenuItem value="bubble">Bubble Sort</MenuItem>
                         <MenuItem value="select">Selection Sort</MenuItem>
@@ -210,6 +312,9 @@ export default function CompareSort(props: Props){
                     {jsxArray2}
                 </div>
             </div>
+            <Modal open={modal} onClose={handleModal}>
+                {modalDisplay()}
+            </Modal>
             <div id='screen_pointers'/>
         </div>
     )

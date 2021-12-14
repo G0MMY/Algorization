@@ -2,11 +2,12 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { History } from "history";
 import Header from "../Header";
 import { bubbleSort, insertionSort, quickSort, selectionSort, height } from './sortUtil';
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Button } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Button, Modal, Box } from "@mui/material";
 
 interface Props{
     history: History
 }
+
 
 export default function Sort(props: Props){
 
@@ -14,6 +15,8 @@ export default function Sort(props: Props){
     const [jsxArray, setJsxArray] = useState([<></>]);
     const [algorithm, setAlgorithm] = useState('insert');
     const numberArray = useRef<number[]>([]);
+    const [modal, setModal] = useState(false);
+    const [modalPage, setModalPage] = useState(0);
 
     const text = (arr: number[]) => {
         let textArray: JSX.Element[] = [];
@@ -42,20 +45,19 @@ export default function Sort(props: Props){
             button.textContent = 'Reset';
             switch(algorithm){
                 case 'insert':
-                    insertionSort(jsxArray);
+                    insertionSort(jsxArray, 0);
                     break;
                 case 'bubble':
-                    bubbleSort(jsxArray);
+                    bubbleSort(jsxArray, 0);
                     break;
                 case 'select':
-                    selectionSort(jsxArray);
+                    selectionSort(jsxArray, 0);
                     break;
                 case 'quick':
-                    quickSort(jsxArray);
+                    quickSort(jsxArray, 0);
                     break;
             }
         }
-        
     }
 
     const compareButton = () => {
@@ -76,6 +78,20 @@ export default function Sort(props: Props){
             setAlgorithm(e.target.value);
             text(numberArray.current);
             modifyHeight(numberArray.current);
+            let button = document.getElementById('sort')!;
+            button.style.backgroundColor = '#1976D2';
+            button.textContent = 'Sort';
+        }
+    }
+
+    function deleteAllCookies() {
+        var cookies = document.cookie.split(";");
+    
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            var eqPos = cookie.indexOf("=");
+            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
         }
     }
 
@@ -85,19 +101,103 @@ export default function Sort(props: Props){
         numberArray.current = temp;
     },[]);
 
+    const handleModal = () => {
+        if (modal){
+            setModalPage(0);
+        }
+        setModal(!modal);
+        changeArrayButton();
+        let button = document.getElementById('sort')!
+        button.style.backgroundColor = '#1976D2';
+        button.textContent = 'Sort';
+    }
+
+    const nextClick = () => {
+        setModalPage(modalPage + 1);
+    }
+
+    const previousClick = () => {
+        setModalPage(modalPage -1);
+    }
+
+    const modalDisplay = () => {
+        if (modalPage === 0){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Welcome to the sorting algorithm feature!</b>
+                    <p id='sortModalIntro'>This is a little tutorial to help you understand how to use this feature.</p>
+                    <p id='sortModalPhrase'>If you don't want to do it, press the "Skip Tutorial" button. Otherwise, press "Next" to continue.</p>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 1){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Piking an algorithm</b>
+                    <p id='sortModalIntro'>Choose an algorithm from the algorithm dropdown.</p>
+                    <img id='sortDropoutImg' src='/images/sortDropout.png'/>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 2){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Algorithms overview</b>
+                    <p id='sortModalIntro'>All sorting algorithms are different in their own way.</p>
+                    <p><b>Insertition Sort:</b> This is a very simple algorithm that builds the final array by inserting the new values, at the right place, one by one.</p>
+                    <p><b>Bubble Sort:</b> This algorithm compares each value of the array with its neighbor and switch them if they are not in the right order. </p>
+                    <p><b>Selection Sort:</b> This algorithm sorts an array by repeatedly finding the minimum element of the unsorted array and puts it in the sorted array.</p>
+                    <p><b>Quick Sort:</b> This algorithm is a Divide and Conquer algorithm. It picks an element as pivot and slices the array in two. It then sorts the two partitions before putting them back together.</p> 
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 3){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Visualize and more</b>
+                    <p id='sortModalIntro'>You can know visualize, change the array or compare two algorithms together.</p>
+                    <img id='sortHeaderImg' src='/images/sortHeader.png'/>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 4){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Have Fun!</b>
+                    <p id='sortModalIntro'>I hope this tutorial helped you understand how this sorting visualization tool works.</p>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={handleModal}>Finish</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        }
+        return (
+            <></>
+        )
+    }
+
+
     return (
         <div id="app">
             <Header nav={props} tab={2}/>
             <div className="algoHeader">
-                <FormControl id="algorithm_form">
-                    <InputLabel id="algorithm_selecter">Algorithm</InputLabel>
-                    <Select labelId="algorithm_selecter" id="label" value={algorithm} onChange={(e)=>{handleAlgorithmChange(e)}}>
-                        <MenuItem value="insert">Insertion Sort</MenuItem>
-                        <MenuItem value="bubble">Bubble Sort</MenuItem>
-                        <MenuItem value="select">Selection Sort</MenuItem>
-                        <MenuItem value="quick">Quick Sort</MenuItem>
-                    </Select>
-                </FormControl>
                 <Button className="headerButton" id="sort" variant='contained' onClick={sortButton}>
                     Sort
                 </Button>
@@ -107,10 +207,27 @@ export default function Sort(props: Props){
                 <Button className="headerButton" variant='contained' onClick={compareButton}>
                     Compare
                 </Button>
+                <Button className="headerButton" variant='contained' color='secondary' onClick={handleModal}>
+                    Help
+                </Button>
             </div>
-            <div id='sort_container'>
-                {jsxArray}
+            <div id='center'>
+                <FormControl>
+                    <InputLabel id="algorithm_selecter">Algorithm</InputLabel>
+                    <Select labelId="algorithm_selecter" value={algorithm} onChange={(e)=>{handleAlgorithmChange(e)}}>
+                        <MenuItem value="insert">Insertion Sort</MenuItem>
+                        <MenuItem value="bubble">Bubble Sort</MenuItem>
+                        <MenuItem value="select">Selection Sort</MenuItem>
+                        <MenuItem value="quick">Quick Sort</MenuItem>
+                    </Select>
+                </FormControl>
+                <div id='sort_container'>
+                    {jsxArray}
+                </div>
             </div>
+            <Modal open={modal} onClose={handleModal}>
+                {modalDisplay()}
+            </Modal>
         </div>
     );
 }

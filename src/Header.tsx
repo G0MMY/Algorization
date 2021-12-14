@@ -9,7 +9,6 @@ interface Props{
 }
 
 export default function Header(props: {nav: Props, tab: number}){
-
     return (
         <Box id="header" sx={{ width: '100%' }}>
             <div id="title">Algorization</div>
