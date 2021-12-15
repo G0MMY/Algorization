@@ -24,14 +24,14 @@ export const findPath = (current:Position, came_from:Position[][], visualizer: V
     return findPath(came_from[current.x][current.y], came_from, visualizer)
 }
 
-export const play = (visualizer: Visualizer[], grid_number:string)=>{
+export const play = (visualizer: Visualizer[], grid_number:string, speed: number)=>{
     let i = 0
     document.getElementById('app')!.style.pointerEvents = 'none'
     visualizer.forEach((elem)=>{
         i += 1
         setTimeout(()=>{
             document.getElementById(elem.element.x + ',' + elem.element.y + ' ' + grid_number)!.style.backgroundColor = elem.color
-        }, i * 4)
+        }, i * (8 - speed))
     })
     const doc = document.getElementById('screen_pointers')!
     if (grid_number === '1' || grid_number === '2'){
@@ -51,7 +51,7 @@ export const play = (visualizer: Visualizer[], grid_number:string)=>{
         } else {
             document.getElementById('app')!.style.pointerEvents = 'auto'
         }
-    }, i * 4)
+    }, i * (8 - speed))
 }
 
 export const neighbors = (current:Position, grid_number:string)=>{

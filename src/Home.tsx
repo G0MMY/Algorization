@@ -30,16 +30,19 @@ export default function Home(props: Props){
             </div>
             <div id='infoContainer'>
                 <div className="agloInfo" onClick={pathfindingClick}>
-                    <b>Pathfinding</b><br/><br/>
-                    Pathfinding algorithms are usually designed to solve the shortest path problem in a graph. In graph theory, the shortest path problem is the problem of finding the shortset path between two nodes. This meens that the sum of the weights of each nodes in the path are going to be minimized. Basically, the shortest path problem is the same as finding the fastest route between a place and another one on Google Map, for example.  
+                    <b>Pathfinding</b><br/>
+                    This feature is to help you understand how pathfinding algoritms work. You can see the A Star algorithm, the Dijkstra's algorithm or the Greedy Best-First Search algorithm in action. You can also compare two algorithms together to see which one is better.  
                 </div>
-                <div className="agloInfo" onClick={sortClick}>sorting</div>
-                <div className="agloInfo" onClick={backtrackingClick}>backtracking</div>
+                <div className="agloInfo" onClick={sortClick}>
+                    <b>Sorting</b><br/>
+                    This feature is to help you understand how sorting algorithms work. You can see the insertion, the bubble, the selection or the quick sort algorithm in action. You can also compare two algorithms together to see which one is better.  
+                </div>
+                <div className="agloInfo" onClick={backtrackingClick}>
+                    <b>Backtracking</b><br/>
+                    This feature is to help you understand how backtracking algorithms work. You can see how a backtracking algorithm does to resolve a sudoku.
+                </div>
             </div>
             <div id='color'/>
         </div>
     )
 }
-
-
-// Pathfinding algorithms are usually designed to solve the shortest path problem in a graph. For this visualization, the graph is represented by a grid. All you have to do to see the algorithms in action is choose a starting and a ending point by clicking on a square. Then, you can hold your mouse and draw some walls, which are obstacles for the algorithms. The, press on visualize.

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import aStart from "./aStarAlgorithm";
-import { Button, FormControl, Select, InputLabel, MenuItem, SelectChangeEvent, Modal } from '@mui/material';
+import { Button, FormControl, Select, InputLabel, MenuItem, SelectChangeEvent, Modal, Slider } from '@mui/material';
 import dijkstra from "./DijkstraAlgorithm";
 import greedyBestFirstSearch from "./greedyBestFirstSearch";
 import Grid from '../Grid'
@@ -25,6 +25,7 @@ export default function ShortestPath(props: Props){
     const [algorithm, setAlgorithm] = useState('a_star');
     const [modal, setModal] = useState(false);
     const [modalPage, setModalPage] = useState(0);
+    const [speed, setSpeed] = useState(4);
 
     const makeRow = (length: number, row_number:number)=>{
         let row = []
@@ -58,7 +59,7 @@ export default function ShortestPath(props: Props){
     const squareClick = (id:string)=>{
         const doc = document.getElementById(id)
         if (doc !== null){
-            if (start_pos.current === ''){
+            if (start_pos.current === '' && id !== end_pos.current){
                 doc.style.backgroundColor = start
                 start_pos.current = id
             } else if (end_pos.current === '' && start_pos.current !== id){
@@ -107,21 +108,21 @@ export default function ShortestPath(props: Props){
 
     const visualizeButton = ()=>{
         if (start_pos.current !== '' && end_pos.current !== ''){
-            const button = document.getElementById('visualize_button')!
+            const button = document.getElementById('visualize_button')!;
             if (button.textContent === 'Visualize'){
                 if (algorithm === 'a_star'){
-                    aStart(start_pos.current, end_pos.current, '')
+                    aStart(start_pos.current, end_pos.current, '', speed);
                 } else if (algorithm === 'dijkstra') {
-                    dijkstra(start_pos.current, end_pos.current, '')
+                    dijkstra(start_pos.current, end_pos.current, '', speed);
                 } else if (algorithm === 'greedy'){
-                    greedyBestFirstSearch(start_pos.current, end_pos.current, '')
+                    greedyBestFirstSearch(start_pos.current, end_pos.current, '', speed);
                 }
-                button.style.backgroundColor = '#DC004E'
-                button.textContent = 'Clear Visualization'
+                button.style.backgroundColor = '#DC004E';
+                button.textContent = 'Clear Visualization';
             } else {
                 clearButton()
-                button.style.backgroundColor = '#1976D2'
-                button.textContent = 'Visualize'
+                button.style.backgroundColor = '#1976D2';
+                button.textContent = 'Visualize';
             }
         }
     }
@@ -192,9 +193,9 @@ export default function ShortestPath(props: Props){
                 <div className="modal">
                     <b id='sortModalTitle'>Algorithms overview</b>
                     <p id='sortModalIntro'>All sorting algorithms are different in their own way.</p>
-                    <p><b>A star:</b> </p>
-                    <p><b>Dijkstra:</b>  </p>
-                    <p><b>Greedy Best-First Search:</b> </p>
+                    <p><b>A star:</b>  This algorithm uses heuristics to find the shortest path faster then Dijkstra's algorithm. It guarantees the shortest path.</p>
+                    <p><b>Dijkstra:</b>  This algorithm looks every possible path until it finds the end node. It guarantees the shortest path.</p>
+                    <p><b>Greedy Best-First Search:</b>  This algorithm is a faster and more heuristic heavy algorithm then A star's algorithm. It does not guarantee the shortset path.</p>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
                         <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
@@ -203,6 +204,34 @@ export default function ShortestPath(props: Props){
                 </div>
             );
         } else if (modalPage === 3){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Place start and end point</b>
+                    <p id='sortModalIntro'>You can know choose the start and ending point of the path by clicking on the squares.</p>
+                    <p id='sortModalPhrase'>If u want to change the position of on of the nodes, click on it to erase it and click wherever you want the point to be.</p>
+                    <img id='pointPathImg' src='/images/pointPath.png'/>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 4){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Put some walls</b>
+                    <p id='sortModalIntro'>To place some walls, hold down the left button and drag the mouse aroud.</p>
+                    <p id='sortModalPhrase'>To remove a wall, simply click on it.</p>
+                    <img id='pointPathImg' src='/images/pathWalls.png'/>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 5){
             return (
                 <div className="modal">
                     <b id='sortModalTitle'>Visualize and more</b>
@@ -215,11 +244,11 @@ export default function ShortestPath(props: Props){
                     </div>
                 </div>
             );
-        } else if (modalPage === 4){
+        } else if (modalPage === 6){
             return (
                 <div className="modal">
                     <b id='sortModalTitle'>Have Fun!</b>
-                    <p id='sortModalIntro'>I hope this tutorial helped you understand how this sorting visualization tool works.</p>
+                    <p id='sortModalIntro'>I hope this tutorial helped you understand how this pathfinding visualization tool works.</p>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
                         <Button id='sortModalNext' variant='contained' onClick={handleModal}>Finish</Button>
@@ -231,6 +260,12 @@ export default function ShortestPath(props: Props){
         return (
             <></>
         )
+    }
+
+    const handleSpeedChange = (e: Event, val: number|number[]) => {
+        if (typeof(val) === 'number'){
+            setSpeed(val);
+        }
     }
 
     return (
@@ -245,6 +280,12 @@ export default function ShortestPath(props: Props){
                 <Button id='reset_button' className="headerButton" variant='contained' color='secondary' onClick={()=>{resetButton()}}>
                     Reset
                 </Button>
+                <div id='sliderContainer'>
+                    Speed
+                    <Slider id='headerSlider' value={speed} onChange={(e, val)=>{
+                        handleSpeedChange(e, val);
+                    }} min={1} max={7} aria-label="Default" valueLabelDisplay="auto" color='secondary'/>
+                </div>
                 <Button id='compare_button' className="headerButton" variant='contained' onClick={()=>{compareButton()}}>
                     Compare 
                 </Button>

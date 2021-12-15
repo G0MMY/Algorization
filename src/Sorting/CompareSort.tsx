@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { History as hs } from 'history';
 import Header from "../Header";
-import { FormControl, MenuItem, Select, Button, InputLabel, SelectChangeEvent, Modal } from '@mui/material';
+import { FormControl, MenuItem, Select, Button, InputLabel, SelectChangeEvent, Modal, Slider } from '@mui/material';
 import { insertionSort, bubbleSort, selectionSort, quickSort, height } from "./sortUtil";
 
 interface Props{
@@ -18,6 +18,7 @@ export default function CompareSort(props: Props){
     const numberArray = useRef<number[]>([]);
     const [modal, setModal] = useState(false);
     const [modalPage, setModalPage] = useState(0);
+    const [speed, setSpeed] = useState(60);
 
     const sortButton = () => {
         let button = document.getElementById('sort')!;
@@ -33,80 +34,80 @@ export default function CompareSort(props: Props){
                 case 'insert':
                     switch(algorithm2){
                         case 'insert':
-                            insertionSort(jsxArray1, 1);
-                            insertionSort(jsxArray2, 2);
+                            insertionSort(jsxArray1, 1, speed);
+                            insertionSort(jsxArray2, 2, speed);
                             break;
                         case 'bubble':
-                            insertionSort(jsxArray1, 1);
-                            bubbleSort(jsxArray2, 2);
+                            insertionSort(jsxArray1, 1, speed);
+                            bubbleSort(jsxArray2, 2, speed);
                             break;
                         case 'select':
-                            insertionSort(jsxArray1, 1);
-                            selectionSort(jsxArray2, 2);
+                            insertionSort(jsxArray1, 1, speed);
+                            selectionSort(jsxArray2, 2, speed);
                             break;
                         case 'quick':
-                            insertionSort(jsxArray1, 1);
-                            quickSort(jsxArray2, 2);
+                            insertionSort(jsxArray1, 1, speed);
+                            quickSort(jsxArray2, 2, speed);
                             break;
                     }
                     break;
                 case 'bubble':
                     switch(algorithm2){
                         case 'insert':
-                            bubbleSort(jsxArray1, 1);
-                            insertionSort(jsxArray2, 2);
+                            bubbleSort(jsxArray1, 1, speed);
+                            insertionSort(jsxArray2, 2, speed);
                             break;
                         case 'bubble':
-                            bubbleSort(jsxArray1, 1);
-                            bubbleSort(jsxArray2, 2);
+                            bubbleSort(jsxArray1, 1, speed);
+                            bubbleSort(jsxArray2, 2, speed);
                             break;
                         case 'select':
-                            bubbleSort(jsxArray1, 1);
-                            selectionSort(jsxArray2, 2);
+                            bubbleSort(jsxArray1, 1, speed);
+                            selectionSort(jsxArray2, 2, speed);
                             break;
                         case 'quick':
-                            bubbleSort(jsxArray1, 1);
-                            quickSort(jsxArray2, 2);
+                            bubbleSort(jsxArray1, 1, speed);
+                            quickSort(jsxArray2, 2, speed);
                             break;
                     }
                     break;
                 case 'select':
                     switch(algorithm2){
                         case 'insert':
-                            selectionSort(jsxArray1, 1);
-                            insertionSort(jsxArray2, 2);
+                            selectionSort(jsxArray1, 1, speed);
+                            insertionSort(jsxArray2, 2, speed);
                             break;
                         case 'bubble':
-                            selectionSort(jsxArray1, 1);
-                            bubbleSort(jsxArray2, 2);
+                            selectionSort(jsxArray1, 1, speed);
+                            bubbleSort(jsxArray2, 2, speed);
                             break;
                         case 'select':
-                            selectionSort(jsxArray1, 1);
-                            selectionSort(jsxArray2, 2);
+                            selectionSort(jsxArray1, 1, speed);
+                            selectionSort(jsxArray2, 2, speed);
                             break;
                         case 'quick':
-                            selectionSort(jsxArray1, 1);
-                            quickSort(jsxArray2, 2);
+                            selectionSort(jsxArray1, 1, speed);
+                            quickSort(jsxArray2, 2, speed);
                             break;
                     }
                     break;
                 case 'quick':
                     switch(algorithm2){
                         case 'insert':
-                            quickSort(jsxArray1, 1);
-                            insertionSort(jsxArray2, 2);
+                            quickSort(jsxArray1, 1, speed);
+                            insertionSort(jsxArray2, 2, speed);
                             break;
                         case 'bubble':
-                            quickSort(jsxArray1, 1);
-                            bubbleSort(jsxArray2, 2);
+                            quickSort(jsxArray1, 1, speed);
+                            bubbleSort(jsxArray2, 2, speed);
                             break;
                         case 'select':
-                            quickSort(jsxArray1, 1);
-                            selectionSort(jsxArray2, 2);
+                            quickSort(jsxArray1, 1, speed);
+                            selectionSort(jsxArray2, 2, speed);
                             break;
                         case 'quick':
-                            quickSort(jsxArray1, 1);
-                            quickSort(jsxArray2, 2);
+                            quickSort(jsxArray1, 1, speed);
+                            quickSort(jsxArray2, 2, speed);
                             break;
                     }
                     break;
@@ -267,6 +268,16 @@ export default function CompareSort(props: Props){
         )
     }
 
+    const handleSpeedChange = (e: Event, val: number|number[]) => {
+        if (typeof(val) === 'number'){
+            let button = document.getElementById('sort')!;
+            if (button.textContent !== 'Sort'){
+                sortButton();
+            }
+            setSpeed(val);
+        }
+    }
+
     return (
         <div id='app'>
             <Header nav={props} tab={2}/>
@@ -277,6 +288,12 @@ export default function CompareSort(props: Props){
                 <Button className="headerButton" variant='contained' color='secondary' onClick={changeArrayButton}>
                     Change Array
                 </Button>
+                <div id='sliderContainer'>
+                    Speed
+                    <Slider id='headerSlider' value={speed} onChange={(e, val)=>{
+                        handleSpeedChange(e, val);
+                    }} min={10} max={110} aria-label="Default" valueLabelDisplay="auto" color='secondary'/>
+                </div>
                 <Button className="headerButton" variant='contained' onClick={compareButton}>
                     Stop Compare
                 </Button>

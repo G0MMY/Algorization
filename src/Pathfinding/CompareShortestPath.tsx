@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { len, start, end, wall } from './ShortestPath'
-import { Button, FormControl, Select, InputLabel, MenuItem, SelectChangeEvent } from '@mui/material'
+import { Button, FormControl, Select, InputLabel, MenuItem, SelectChangeEvent, Modal, Slider } from '@mui/material'
 import Grid from '../Grid'
 import { History as hs } from 'history'
 import dijkstra from "./DijkstraAlgorithm";
@@ -13,13 +13,16 @@ interface Props{
 }
 
 export default function GridComparator(props:Props){
-    const [grid_1, setGrid1] = useState([<tr key='initial'></tr>])
-    const [grid_2, setGrid2] = useState([<tr key='initial'></tr>])
-    const start_pos = useRef('')
-    const end_pos = useRef('')
-    const wall_construction = useRef(false)
-    const [algorithm_1, setAlgorithm1] = useState('a_star')
-    const [algorithm_2, setAlgorithm2] = useState('dijkstra')
+    const [grid_1, setGrid1] = useState([<tr key='initial'></tr>]);
+    const [grid_2, setGrid2] = useState([<tr key='initial'></tr>]);
+    const start_pos = useRef('');
+    const end_pos = useRef('');
+    const wall_construction = useRef(false);
+    const [algorithm_1, setAlgorithm1] = useState('a_star');
+    const [algorithm_2, setAlgorithm2] = useState('dijkstra');
+    const [modal, setModal] = useState(false);
+    const [modalPage, setModalPage] = useState(0);
+    const [speed, setSpeed] = useState(4);
 
     const makeRow = (length: number, row_number:number, grid_number:string)=>{
         let row = []
@@ -128,48 +131,48 @@ export default function GridComparator(props:Props){
             case('a_star'):
                 switch(algorithm_2){
                     case('a_star'):
-                        aStar(start_pos.current, end_pos.current, '1')
-                        aStar(start_pos.current, end_pos.current, '2')
+                        aStar(start_pos.current, end_pos.current, '1', speed)
+                        aStar(start_pos.current, end_pos.current, '2', speed)
                         break;
                     case('greedy'):
-                        aStar(start_pos.current, end_pos.current, '1')
-                        greedyBestFirstSearch(start_pos.current, end_pos.current, '2')
+                        aStar(start_pos.current, end_pos.current, '1', speed)
+                        greedyBestFirstSearch(start_pos.current, end_pos.current, '2', speed)
                         break;
                     case('dijkstra'):
-                        aStar(start_pos.current, end_pos.current, '1')
-                        dijkstra(start_pos.current, end_pos.current, '2')
+                        aStar(start_pos.current, end_pos.current, '1', speed)
+                        dijkstra(start_pos.current, end_pos.current, '2', speed)
                         break;
                 }
                 break;
             case('greedy'):
                 switch(algorithm_2){
                     case('a_star'):
-                        greedyBestFirstSearch(start_pos.current, end_pos.current, '1')
-                        aStar(start_pos.current, end_pos.current, '2')
+                        greedyBestFirstSearch(start_pos.current, end_pos.current, '1', speed)
+                        aStar(start_pos.current, end_pos.current, '2', speed)
                         break;
                     case('greedy'):
-                        greedyBestFirstSearch(start_pos.current, end_pos.current, '1')
-                        greedyBestFirstSearch(start_pos.current, end_pos.current, '2')
+                        greedyBestFirstSearch(start_pos.current, end_pos.current, '1', speed)
+                        greedyBestFirstSearch(start_pos.current, end_pos.current, '2', speed)
                         break;
                     case('dijkstra'):
-                        greedyBestFirstSearch(start_pos.current, end_pos.current, '1')
-                        dijkstra(start_pos.current, end_pos.current, '2')
+                        greedyBestFirstSearch(start_pos.current, end_pos.current, '1', speed)
+                        dijkstra(start_pos.current, end_pos.current, '2', speed)
                         break;
                 }
                 break;
             case('dijkstra'):
                 switch(algorithm_2){
                     case('a_star'):
-                        dijkstra(start_pos.current, end_pos.current, '1')
-                        aStar(start_pos.current, end_pos.current, '2')
+                        dijkstra(start_pos.current, end_pos.current, '1', speed)
+                        aStar(start_pos.current, end_pos.current, '2', speed)
                         break;
                     case('greedy'):
-                        dijkstra(start_pos.current, end_pos.current, '1')
-                        greedyBestFirstSearch(start_pos.current, end_pos.current, '2')
+                        dijkstra(start_pos.current, end_pos.current, '1', speed)
+                        greedyBestFirstSearch(start_pos.current, end_pos.current, '2', speed)
                         break;
                     case('dijkstra'):
-                        dijkstra(start_pos.current, end_pos.current, '1')
-                        dijkstra(start_pos.current, end_pos.current, '2')
+                        dijkstra(start_pos.current, end_pos.current, '1', speed)
+                        dijkstra(start_pos.current, end_pos.current, '2', speed)
                         break;
                 }
                 break;
@@ -215,6 +218,127 @@ export default function GridComparator(props:Props){
         })
     },[])
 
+    const handleModal = () => {
+        if (modal){
+            setModalPage(0);
+        }
+        setModal(!modal);
+    }
+
+    const nextClick = () => {
+        setModalPage(modalPage + 1);
+    }
+
+    const previousClick = () => {
+        setModalPage(modalPage -1);
+    }
+
+    const modalDisplay = () => {
+        if (modalPage === 0){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Welcome to the pathfinding algorithm feature!</b>
+                    <p id='sortModalIntro'>This is a little tutorial to help you understand how to use this feature.</p>
+                    <p id='sortModalPhrase'>If you don't want to do it, press the "Skip Tutorial" button. Otherwise, press "Next" to continue.</p>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 1){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Piking an algorithm</b>
+                    <p id='sortModalIntro'>Choose different algorithms from the algorithm dropdowns.</p>
+                    <img id='sortDropoutImg' src='/images/pathDropout.png'/>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 2){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Algorithms overview</b>
+                    <p id='sortModalIntro'>All pathfinding algorithms are good in their own way.</p>
+                    <p><b>A star:</b>  This algorithm uses heuristics to find the shortest path faster then Dijkstra's algorithm. It guarantees the shortest path.</p>
+                    <p><b>Dijkstra:</b>  This algorithm looks every possible path until it finds the end node. It guarantees the shortest path.</p>
+                    <p><b>Greedy Best-First Search:</b>  This algorithm is a faster and more heuristic heavy algorithm then A star's algorithm. It does not guarantee the shortset path.</p>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 3){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Place start and end point</b>
+                    <p id='sortModalIntro'>You can know choose the start and ending point of the path by clicking on the squares of the <b>left</b> grid.</p>
+                    <p id='sortModalPhrase'>If u want to change the position of on of the nodes, click on it to erase it and click wherever you want the point to be.</p>
+                    <img id='pointPathImg' src='/images/pointPath.png'/>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 4){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Put some walls</b>
+                    <p id='sortModalIntro'>To place some walls, hold down the left button and drag the mouse aroud, in the <b>left</b> grid.</p>
+                    <p id='sortModalPhrase'>To remove a wall, simply click on it.</p>
+                    <img id='pointPathImg' src='/images/pathWalls.png'/>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 5){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Visualize and more</b>
+                    <p id='sortModalIntro'>You can know visualize, reset the grid or compare two algorithms together.</p>
+                    <img id='sortHeaderImg' src='/images/pathCompareHeader.png'/>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        } else if (modalPage === 6){
+            return (
+                <div className="modal">
+                    <b id='sortModalTitle'>Have Fun!</b>
+                    <p id='sortModalIntro'>I hope this tutorial helped you understand how this pathfinding visualization tool works.</p>
+                    <div id='sortModalButtonContainer'>
+                        <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
+                        <Button id='sortModalNext' variant='contained' onClick={handleModal}>Finish</Button>
+                        <Button id='sortModalPrevious' variant='contained' onClick={previousClick}>Previous</Button>
+                    </div>
+                </div>
+            );
+        }
+        return (
+            <></>
+        )
+    }
+
+    const handleSpeedChange = (e: Event, val: number|number[]) => {
+        if (typeof(val) === 'number'){
+            setSpeed(val);
+        }
+    }
+
     return (
         <div id='app'>
             <Header nav={props} tab={1}/>
@@ -225,8 +349,17 @@ export default function GridComparator(props:Props){
                 <Button id='reset_button' className="headerButton" variant='contained' color='secondary' onClick={()=>{resetButton()}}>
                     Reset
                 </Button>
+                <div id='sliderContainer'>
+                    Speed
+                    <Slider id='headerSlider' value={speed} onChange={(e, val)=>{
+                        handleSpeedChange(e, val);
+                    }} min={1} max={7} aria-label="Default" valueLabelDisplay="auto" color='secondary'/>
+                </div>
                 <Button id='compare_button' className="headerButton" variant='contained' onClick={()=>{compareButton()}}>
                     Stop Compare
+                </Button>
+                <Button className="headerButton" variant='contained' color='secondary' onClick={handleModal}>
+                    Help
                 </Button>
             </div>
             <FormControl id="algorithm_form_1">
@@ -251,6 +384,9 @@ export default function GridComparator(props:Props){
                 <Grid grid={grid_1} id='grid_1'/>
                 <Grid grid={grid_2} id='grid_2'/>
             </div>
+            <Modal open={modal} onClose={handleModal}>
+                {modalDisplay()}
+            </Modal>
             <div id='screen_pointers'/>
         </div>
     )

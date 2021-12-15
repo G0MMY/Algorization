@@ -2,7 +2,7 @@ import { len } from "./ShortestPath"
 import PriorityQueue from "./priorityQueue"
 import { findPath, play, neighbors, Position, checked, open, positionFormat } from "./algorithmUtils"
 
-export default function dijkstra(start:string, end:string, grid_number:string){
+export default function dijkstra(start:string, end:string, grid_number:string, speed: number){
     const start_pos = positionFormat(start)
     const end_pos = positionFormat(end)
     let visualizer = [{
@@ -40,7 +40,7 @@ export default function dijkstra(start:string, end:string, grid_number:string){
         
         if (current.x === end_pos.x && current.y === end_pos.y){
             findPath(current, came_from, visualizer)
-            play(visualizer, grid_number)
+            play(visualizer, grid_number, speed)
             return true
         }
 

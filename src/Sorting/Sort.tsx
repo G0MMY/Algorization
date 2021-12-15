@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { History } from "history";
 import Header from "../Header";
 import { bubbleSort, insertionSort, quickSort, selectionSort, height } from './sortUtil';
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Button, Modal, Box } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Button, Modal, Box, Slider } from "@mui/material";
 
 interface Props{
     history: History
@@ -17,6 +17,7 @@ export default function Sort(props: Props){
     const numberArray = useRef<number[]>([]);
     const [modal, setModal] = useState(false);
     const [modalPage, setModalPage] = useState(0);
+    const [speed, setSpeed] = useState(60);
 
     const text = (arr: number[]) => {
         let textArray: JSX.Element[] = [];
@@ -45,16 +46,16 @@ export default function Sort(props: Props){
             button.textContent = 'Reset';
             switch(algorithm){
                 case 'insert':
-                    insertionSort(jsxArray, 0);
+                    insertionSort(jsxArray, 0, speed);
                     break;
                 case 'bubble':
-                    bubbleSort(jsxArray, 0);
+                    bubbleSort(jsxArray, 0, speed);
                     break;
                 case 'select':
-                    selectionSort(jsxArray, 0);
+                    selectionSort(jsxArray, 0, speed);
                     break;
                 case 'quick':
-                    quickSort(jsxArray, 0);
+                    quickSort(jsxArray, 0, speed);
                     break;
             }
         }
@@ -81,17 +82,6 @@ export default function Sort(props: Props){
             let button = document.getElementById('sort')!;
             button.style.backgroundColor = '#1976D2';
             button.textContent = 'Sort';
-        }
-    }
-
-    function deleteAllCookies() {
-        var cookies = document.cookie.split(";");
-    
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i];
-            var eqPos = cookie.indexOf("=");
-            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
         }
     }
 
@@ -193,6 +183,16 @@ export default function Sort(props: Props){
         )
     }
 
+    const handleSpeedChange = (e: Event, val: number|number[]) => {
+        if (typeof(val) === 'number'){
+            let button = document.getElementById('sort')!;
+            if (button.textContent !== 'Sort'){
+                sortButton();
+            }
+            setSpeed(val);
+        }
+    }
+
 
     return (
         <div id="app">
@@ -204,6 +204,12 @@ export default function Sort(props: Props){
                 <Button className="headerButton" variant='contained' color='secondary' onClick={changeArrayButton}>
                     Change Array
                 </Button>
+                <div id='sliderContainer'>
+                    Speed
+                    <Slider id='headerSlider' value={speed} onChange={(e, val)=>{
+                        handleSpeedChange(e, val);
+                    }} min={10} max={110} aria-label="Default" valueLabelDisplay="auto" color='secondary'/>
+                </div>
                 <Button className="headerButton" variant='contained' onClick={compareButton}>
                     Compare
                 </Button>

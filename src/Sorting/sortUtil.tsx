@@ -3,7 +3,7 @@ interface Viz{
     second: string
 }
 
-export const insertionSort = (jsxArray: JSX.Element[], tab: number) => {
+export const insertionSort = (jsxArray: JSX.Element[], tab: number, speed:number) => {
     let visualization: Viz[] = [];
 
     for (let i=0;i<jsxArray.length;i++){
@@ -19,24 +19,29 @@ export const insertionSort = (jsxArray: JSX.Element[], tab: number) => {
             j -= 1;
         }
     }
-    play(visualization, tab);
+    play(visualization, tab, speed);
 }
 
 export const height = (num: number, array: number[]) => {
     return (930 / Math.max(...array) - 2) * num + 5;
 }
 
-export const play = (visualization: Viz[], tab: number)=>{
+export const play = (visualization: Viz[], tab: number, speed:number)=>{
     let i = 0;
-    document.getElementById('root')!.style.pointerEvents = 'none';
+    document.getElementById('app')!.style.pointerEvents = 'none';
     
     visualization.forEach((elem)=>{
         i += 1;
         setTimeout(()=>{
-            let temp = document.getElementById(elem.first)!.style.height;
-            document.getElementById(elem.first)!.style.height = document.getElementById(elem.second)!.style.height;
-            document.getElementById(elem.second)!.style.height = temp;
-        }, i * 50);
+            const doc1 = document.getElementById(elem.first)!;
+            let height = doc1.style.height;
+            let text = doc1.textContent;
+            const doc2 = document.getElementById(elem.second)!;
+            doc1.style.height = doc2.style.height;
+            doc1.textContent = doc2.textContent;
+            doc2.style.height = height;
+            doc2.textContent = text;
+        }, i * (120 - speed));
     });
 
     const doc = document.getElementById('screen_pointers')!
@@ -57,10 +62,10 @@ export const play = (visualization: Viz[], tab: number)=>{
         } else {
             document.getElementById('app')!.style.pointerEvents = 'auto';
         }
-    }, i * 50);
+    }, i * (120 - speed));
 }
 
-export const bubbleSort = (jsxArray: JSX.Element[], tab: number) => {
+export const bubbleSort = (jsxArray: JSX.Element[], tab: number, speed:number) => {
     let visualization: Viz[] = [];
     let swapped = true;
 
@@ -73,16 +78,16 @@ export const bubbleSort = (jsxArray: JSX.Element[], tab: number) => {
                     second: jsxArray[i+1].props.id
                 });
                 let temp = jsxArray[i];
-                jsxArray[i] = <div className="sortColumn" id={jsxArray[i].props.id}>{jsxArray[i+1].props.children}</div>;
-                jsxArray[i+1] = <div className="sortColumn" id={jsxArray[i+1].props.id}>{temp.props.children}</div>;
+                jsxArray[i] = <div className="sortColumn"  id={jsxArray[i].props.id}>{jsxArray[i+1].props.children}</div>;
+                jsxArray[i+1] = <div className="sortColumn"  id={jsxArray[i+1].props.id}>{temp.props.children}</div>;
                 swapped = true;
             }
         }
     }   
-    play(visualization, tab);
+    play(visualization, tab, speed);
 }
 
-export const selectionSort = (jsxArray: JSX.Element[], tab: number) => {
+export const selectionSort = (jsxArray: JSX.Element[], tab: number, speed:number) => {
     let visualization: Viz[] = [];
 
     for (let i=0;i<jsxArray.length;i++){
@@ -98,14 +103,14 @@ export const selectionSort = (jsxArray: JSX.Element[], tab: number) => {
                 second: jsxArray[smaller].props.id
             });
             let temp = jsxArray[i];
-            jsxArray[i] = <div className="sortColumn" id={jsxArray[i].props.id}>{jsxArray[smaller].props.children}</div>;
+            jsxArray[i] = <div className="sortColumn"  id={jsxArray[i].props.id}>{jsxArray[smaller].props.children}</div>;
             jsxArray[smaller] = <div className="sortColumn" id={jsxArray[smaller].props.id}>{temp.props.children}</div>;
         }
     }
-    play(visualization, tab);
+    play(visualization, tab, speed);
 }
 
-export const quickSort = (jsxArray: JSX.Element[], tab: number) => {
+export const quickSort = (jsxArray: JSX.Element[], tab: number, speed:number) => {
     let visualization: Viz[] = [];
 
     const partition = (low: number, high: number) => {
@@ -119,8 +124,8 @@ export const quickSort = (jsxArray: JSX.Element[], tab: number) => {
                     second: jsxArray[j].props.id
                 });
                 let temp = jsxArray[i];
-                jsxArray[i] = <div className="sortColumn" id={jsxArray[i].props.id}>{jsxArray[j].props.children}</div>;
-                jsxArray[j] = <div className="sortColumn" id={jsxArray[j].props.id}>{temp.props.children}</div>;
+                jsxArray[i] = <div className="sortColumn"  id={jsxArray[i].props.id}>{jsxArray[j].props.children}</div>;
+                jsxArray[j] = <div className="sortColumn"  id={jsxArray[j].props.id}>{temp.props.children}</div>;
                 i += 1;
             }
         }
@@ -129,8 +134,8 @@ export const quickSort = (jsxArray: JSX.Element[], tab: number) => {
             second: jsxArray[high].props.id
         });
         let temp = jsxArray[i];
-        jsxArray[i] = <div className="sortColumn" id={jsxArray[i].props.id}>{jsxArray[high].props.children}</div>;
-        jsxArray[high] = <div className="sortColumn" id={jsxArray[high].props.id}>{temp.props.children}</div>;
+        jsxArray[i] = <div className="sortColumn"  id={jsxArray[i].props.id}>{jsxArray[high].props.children}</div>;
+        jsxArray[high] = <div className="sortColumn"  id={jsxArray[high].props.id}>{temp.props.children}</div>;
 
         return i;
     }
@@ -146,5 +151,5 @@ export const quickSort = (jsxArray: JSX.Element[], tab: number) => {
 
     sort(0, jsxArray.length - 1);
 
-    play(visualization, tab);
+    play(visualization, tab, speed);
 }
