@@ -235,7 +235,7 @@ export default function ShortestPath(props: Props){
             return (
                 <div className="modal">
                     <b id='sortModalTitle'>Visualize and more</b>
-                    <p id='sortModalIntro'>You can know visualize, reset the grid or compare two algorithms together.</p>
+                    <p id='sortModalIntro'>You can know visualize, reset the grid, change the visualization speed or compare two algorithms together.</p>
                     <img id='sortHeaderImg' src='/images/pathHeader.png'/>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>

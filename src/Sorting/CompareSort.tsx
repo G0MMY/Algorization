@@ -241,7 +241,7 @@ export default function CompareSort(props: Props){
             return (
                 <div className="modal">
                     <b id='sortModalTitle'>Visualize and more</b>
-                    <p id='sortModalIntro'>You can know visualize, change the array or stop comparing two algorithms together.</p>
+                    <p id='sortModalIntro'>You can know visualize, change the array, change the visualization speed  or stop comparing two algorithms together.</p>
                     <img id='sortHeaderImg' src='/images/sortCompareHeader.png'/>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
