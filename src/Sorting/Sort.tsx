@@ -218,7 +218,7 @@ export default function Sort(props: Props){
                 </Button>
             </div>
             <div id='center'>
-                <FormControl>
+                <FormControl id='sortForm'>
                     <InputLabel id="algorithm_selecter">Algorithm</InputLabel>
                     <Select labelId="algorithm_selecter" value={algorithm} onChange={(e)=>{handleAlgorithmChange(e)}}>
                         <MenuItem value="insert">Insertion Sort</MenuItem>

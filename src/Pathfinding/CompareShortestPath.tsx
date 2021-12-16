@@ -380,9 +380,11 @@ export default function GridComparator(props:Props){
                     <MenuItem value="greedy">Greedy Best-First Search</MenuItem>
                 </Select>
             </FormControl>
-            <div id='comparator_grid_container'>
-                <Grid grid={grid_1} id='grid_1'/>
-                <Grid grid={grid_2} id='grid_2'/>
+            <div id='centerContainer'>
+                <div id='comparator_grid_container'>
+                    <Grid grid={grid_1} id='grid_1'/>
+                    <Grid grid={grid_2} id='grid_2'/>
+                </div>
             </div>
             <Modal open={modal} onClose={handleModal}>
                 {modalDisplay()}

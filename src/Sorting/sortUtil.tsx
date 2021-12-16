@@ -23,7 +23,12 @@ export const insertionSort = (jsxArray: JSX.Element[], tab: number, speed:number
 }
 
 export const height = (num: number, array: number[]) => {
-    return (930 / Math.max(...array) - 2) * num + 5;
+    let doc = document.getElementById('sort_container');
+    if (doc === null){
+        doc = document.getElementById('comparator_container');
+    }
+    let val = doc!.clientHeight;
+    return (val / Math.max(...array) - 2) * num + 5;
 }
 
 export const play = (visualization: Viz[], tab: number, speed:number)=>{

@@ -294,7 +294,7 @@ export default function ShortestPath(props: Props){
                 </Button>
             </div>
             <div id='center'>
-                <FormControl>
+                <FormControl id='algoForm'>
                     <InputLabel id="algorithm_selecter">Algorithm</InputLabel>
                     <Select labelId="algorithm_selecter" id="label" value={algorithm} style={
                         algorithm === 'greedy' ? {fontSize:'12px'}:{fontSize:'15px'}} onChange={(e)=>{handleAlgorithmChange(e)}}>
@@ -303,7 +303,9 @@ export default function ShortestPath(props: Props){
                         <MenuItem value="greedy">Greedy Best-First Search</MenuItem>
                     </Select>
                 </FormControl>
-                <Grid grid={grid} id='main_grid'/>
+                <div id='gridContainer'>
+                    <Grid grid={grid} id='main_grid'/>
+                </div>
             </div>
             <Modal open={modal} onClose={handleModal}>
                 {modalDisplay()}
