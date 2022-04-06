@@ -12,21 +12,21 @@ This project is a web application to visualize sorting, pathfinding and backtrac
 
 ###Pathfinding page
 
-![GitHub Logo](/images/pathfinding.png)
+![GitHub Image](/images/pathfinding.png)
 
 ###Pathfinding compare page
 
-![GitHub Logo](/images/pathfindingCompare.png)
+![GitHub Image](/images/pathfindingCompare.png)
 
 ###Sorting page
 
-![GitHub Logo](/images/sorting.png)
+![GitHub Image](/images/sorting.png)
 
 ###Sorting compare page
 
-![GitHub Logo](/images/sortingCompare.png)
+![GitHub Image](/images/sortingCompare.png)
 
 ###Backtracking page
 
-![GitHub Logo](/images/backtracking.png)
+![GitHub Image](/images/backtracking.png)
 
