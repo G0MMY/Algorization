@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { History } from "history";
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
