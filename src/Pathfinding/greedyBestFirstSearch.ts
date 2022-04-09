@@ -45,7 +45,9 @@ export default function greedyBestFirstSearch(start:string, end:string, grid_num
         }
 
         const neighbors_array = neighbors(current, grid_number)
-        neighbors_array.forEach((neighbor)=>{
+
+        for (let i=0;i<neighbors_array.length;i++) {
+            let neighbor = neighbors_array[i]
             const temp_f_score = distance(neighbor, end_pos)
 
             if (temp_f_score < f_score[neighbor.x][neighbor.y]){
@@ -65,7 +67,8 @@ export default function greedyBestFirstSearch(start:string, end:string, grid_num
                     })
                 }
             }
-        })
+        }
+        
         visualizer.push({
             element: current,
             color: checked

@@ -53,7 +53,9 @@ export default function aStar(start:string, end:string, grid_number:string, spee
         }
 
         const neighbors_array = neighbors(current, grid_number)
-        neighbors_array.forEach((neighbor)=>{
+
+        for (let i=0;i<neighbors_array.length;i++) {
+            let neighbor = neighbors_array[i]
             const temp_g_score = g_score[current.x][current.y] + 1
 
             if (temp_g_score < g_score[neighbor.x][neighbor.y]){
@@ -74,7 +76,8 @@ export default function aStar(start:string, end:string, grid_number:string, spee
                     })
                 }
             }
-        })
+        }
+       
         visualizer.push({
             element: current,
             color: checked

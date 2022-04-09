@@ -26,7 +26,7 @@ interface Props{
 export default function Backtracking(props: Props){
 
     const [grid, setGrid] = useState([<></>]);
-    const [numberGrid, _] = useState([
+    const [numberGrid] = useState([
         [5, 3, 0, 0, 7, 0, 0, 0, 0],
         [6, 0, 0, 1, 9, 5, 0, 0, 0],
         [0, 9, 8, 0, 0, 0, 0, 6, 0],
@@ -63,7 +63,9 @@ export default function Backtracking(props: Props){
 
     useEffect(()=>{
         makeGrid();
-    },[]);
+        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const solutionVisualization = ()=>{
         let doc = document.getElementById('backtracking')!;
@@ -156,7 +158,7 @@ export default function Backtracking(props: Props){
                 <div className="modal">
                     <b id='sortModalTitle'>Visualize and more</b>
                     <p id='sortModalIntro'>You can know visualize or change the speed of the visualization.</p>
-                    <img id='sortHeaderImg' src='/images/backHeader.png'/>
+                    <img id='sortHeaderImg' alt="" src='/images/backHeader.png'/>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
                         <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>

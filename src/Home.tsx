@@ -1,7 +1,6 @@
 import React from "react";
 import { History } from "history";
 import Header from "./Header";
-import { Parallax, ParallaxLayer } from '@react-spring/parallax';
 
 interface Props{
     history: History

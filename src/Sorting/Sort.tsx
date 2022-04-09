@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { History } from "history";
 import Header from "../Header";
 import { bubbleSort, insertionSort, quickSort, selectionSort, height } from './sortUtil';
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Button, Modal, Box, Slider } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Button, Modal, Slider } from "@mui/material";
 
 interface Props{
     history: History
@@ -11,7 +11,7 @@ interface Props{
 
 export default function Sort(props: Props){
 
-    const [length, setLength] = useState(40);
+    const [length] = useState(40);
     const [jsxArray, setJsxArray] = useState([<></>]);
     const [algorithm, setAlgorithm] = useState('insert');
     const numberArray = useRef<number[]>([]);
@@ -89,6 +89,8 @@ export default function Sort(props: Props){
         const temp = Array.from({length: 40}, () => Math.floor(Math.random() * 40));
         text(temp);
         numberArray.current = temp;
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     const handleModal = () => {
@@ -128,7 +130,7 @@ export default function Sort(props: Props){
                 <div className="modal">
                     <b id='sortModalTitle'>Piking an algorithm</b>
                     <p id='sortModalIntro'>Choose an algorithm from the algorithm dropdown.</p>
-                    <img id='sortDropoutImg' src='/images/sortDropout.png'/>
+                    <img id='sortDropoutImg' alt="" src='/images/sortDropout.png'/>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
                         <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
@@ -157,7 +159,7 @@ export default function Sort(props: Props){
                 <div className="modal">
                     <b id='sortModalTitle'>Visualize and more</b>
                     <p id='sortModalIntro'>You can know visualize, change the array, change the visualization speed or compare two algorithms together.</p>
-                    <img id='sortHeaderImg' src='/images/sortHeader.png'/>
+                    <img id='sortHeaderImg' alt="" src='/images/sortHeader.png'/>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
                         <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>

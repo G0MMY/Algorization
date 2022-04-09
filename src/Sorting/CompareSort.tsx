@@ -10,7 +10,7 @@ interface Props{
 
 export default function CompareSort(props: Props){
     
-    const [length, setLength] = useState(20);
+    const [length] = useState(20);
     const [jsxArray1, setJsxArray1] = useState<JSX.Element[]>([]);
     const [jsxArray2, setJsxArray2] = useState<JSX.Element[]>([]);
     const [algorithm1, setAlgorithm1] = useState('insert');
@@ -174,6 +174,8 @@ export default function CompareSort(props: Props){
         const temp = Array.from({length: 40}, () => Math.floor(Math.random() * 40));
         text(temp);
         numberArray.current = temp;
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     const handleModal = () => {
@@ -213,7 +215,7 @@ export default function CompareSort(props: Props){
                 <div className="modal">
                     <b id='sortModalTitle'>Piking an algorithm</b>
                     <p id='sortModalIntro'>Choose different algorithms from the algorithm dropdowns.</p>
-                    <img id='sortDropoutImg' src='/images/sortDropout.png'/>
+                    <img id='sortDropoutImg' alt="" src='/images/sortDropout.png'/>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
                         <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
@@ -242,7 +244,7 @@ export default function CompareSort(props: Props){
                 <div className="modal">
                     <b id='sortModalTitle'>Visualize and more</b>
                     <p id='sortModalIntro'>You can know visualize, change the array, change the visualization speed  or stop comparing two algorithms together.</p>
-                    <img id='sortHeaderImg' src='/images/sortCompareHeader.png'/>
+                    <img id='sortHeaderImg' alt="" src='/images/sortCompareHeader.png'/>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
                         <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>

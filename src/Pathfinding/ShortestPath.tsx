@@ -145,6 +145,8 @@ export default function ShortestPath(props: Props){
         document.getElementById('main_grid')!.addEventListener('mouseup', ()=>{
             wall_construction.current = false
         })
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     const handleModal = () => {
@@ -180,7 +182,7 @@ export default function ShortestPath(props: Props){
                 <div className="modal">
                     <b id='sortModalTitle'>Piking an algorithm</b>
                     <p id='sortModalIntro'>Choose an algorithm from the algorithm dropdown.</p>
-                    <img id='sortDropoutImg' src='/images/pathDropout.png'/>
+                    <img id='sortDropoutImg' alt="" src='/images/pathDropout.png'/>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
                         <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
@@ -209,7 +211,7 @@ export default function ShortestPath(props: Props){
                     <b id='sortModalTitle'>Place start and end point</b>
                     <p id='sortModalIntro'>You can know choose the start and ending point of the path by clicking on the squares.</p>
                     <p id='sortModalPhrase'>If u want to change the position of on of the nodes, click on it to erase it and click wherever you want the point to be.</p>
-                    <img id='pointPathImg' src='/images/pointPath.png'/>
+                    <img id='pointPathImg' alt="" src='/images/pointPath.png'/>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
                         <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
@@ -223,7 +225,7 @@ export default function ShortestPath(props: Props){
                     <b id='sortModalTitle'>Put some walls</b>
                     <p id='sortModalIntro'>To place some walls, hold down the left button and drag the mouse aroud.</p>
                     <p id='sortModalPhrase'>To remove a wall, simply click on it.</p>
-                    <img id='pointPathImg' src='/images/pathWalls.png'/>
+                    <img id='pointPathImg' alt="" src='/images/pathWalls.png'/>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
                         <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
@@ -236,7 +238,7 @@ export default function ShortestPath(props: Props){
                 <div className="modal">
                     <b id='sortModalTitle'>Visualize and more</b>
                     <p id='sortModalIntro'>You can know visualize, reset the grid, change the visualization speed or compare two algorithms together.</p>
-                    <img id='sortHeaderImg' src='/images/pathHeader.png'/>
+                    <img id='sortHeaderImg' alt="" src='/images/pathHeader.png'/>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
                         <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
