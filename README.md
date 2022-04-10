@@ -2,6 +2,10 @@
 
 This project is a web application to visualize sorting, pathfinding and backtracking algorithms. I did this project to learn more on algorithms and to get better in frontend development. I did this application with React and Typescript.  
 
+## Try it live!
+
+https://www.algorization.com/
+
 ## Installation 
 
 * Download the source code
