@@ -145,7 +145,7 @@ export default function Backtracking(props: Props){
                 <div className="modal">
                     <b id='sortModalTitle'>Algorithm overview</b>
                     <p id='sortModalIntro'>Backtracking algorithms try all solutions until they find the one.</p>
-                    <p>This algorithm tries all combinations possible for each cell. If there are no number from 0-9 that works, it goes back and tries other number combinations until it works.</p>
+                    <p>This algorithm tries all combinations possible for each cell. If there are no number from 0-9 that works, it goes back and tries other combinations of numbers until it works.</p>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
                         <Button id='sortModalNext' variant='contained' onClick={nextClick}>Next</Button>
@@ -157,7 +157,7 @@ export default function Backtracking(props: Props){
             return (
                 <div className="modal">
                     <b id='sortModalTitle'>Visualize and more</b>
-                    <p id='sortModalIntro'>You can know visualize or change the speed of the visualization.</p>
+                    <p id='sortModalIntro'>You can now visualize or change the speed of the visualization.</p>
                     <img id='sortHeaderImg' alt="" src='/images/backHeader.png'/>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>

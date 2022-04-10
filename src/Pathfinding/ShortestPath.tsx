@@ -209,8 +209,8 @@ export default function ShortestPath(props: Props){
             return (
                 <div className="modal">
                     <b id='sortModalTitle'>Place start and end point</b>
-                    <p id='sortModalIntro'>You can know choose the start and ending point of the path by clicking on the squares.</p>
-                    <p id='sortModalPhrase'>If u want to change the position of on of the nodes, click on it to erase it and click wherever you want the point to be.</p>
+                    <p id='sortModalIntro'>You can now choose the start and ending point of the path by clicking on the squares.</p>
+                    <p id='sortModalPhrase'>If you want to change the position of one of the nodes, click on it to erase it and click wherever you want the next position to be.</p>
                     <img id='pointPathImg' alt="" src='/images/pointPath.png'/>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>
@@ -223,7 +223,7 @@ export default function ShortestPath(props: Props){
             return (
                 <div className="modal">
                     <b id='sortModalTitle'>Put some walls</b>
-                    <p id='sortModalIntro'>To place some walls, hold down the left button and drag the mouse aroud.</p>
+                    <p id='sortModalIntro'>To place some walls, hold down the left button of your mouse and drag it around.</p>
                     <p id='sortModalPhrase'>To remove a wall, simply click on it.</p>
                     <img id='pointPathImg' alt="" src='/images/pathWalls.png'/>
                     <div id='sortModalButtonContainer'>
@@ -237,7 +237,7 @@ export default function ShortestPath(props: Props){
             return (
                 <div className="modal">
                     <b id='sortModalTitle'>Visualize and more</b>
-                    <p id='sortModalIntro'>You can know visualize, reset the grid, change the visualization speed or compare two algorithms together.</p>
+                    <p id='sortModalIntro'>You can now visualize, reset the grid, change the visualization speed or compare two algorithms together.</p>
                     <img id='sortHeaderImg' alt="" src='/images/pathHeader.png'/>
                     <div id='sortModalButtonContainer'>
                         <Button id="sortModalSkip" color='secondary' onClick={handleModal} variant="contained">Skip Tutorial</Button>

@@ -31,11 +31,11 @@ export default function Home(props: Props){
                 <div id='infoContainer'>
                     <div className="agloInfo" onClick={pathfindingClick}>
                         <b>Pathfinding</b><br/>
-                        This feature is to help you understand how pathfinding algoritms work. You can see the A Star algorithm, the Dijkstra's algorithm or the Greedy Best-First Search algorithm in action. You can also compare two algorithms together to see which one is better.  
+                        This feature is to help you understand how pathfinding algorithms work. You can see the A Star algorithm, the Dijkstra's algorithm or the Greedy Best-First Search algorithm in action. You can also compare two algorithms together to see which one is better.  
                     </div>
                     <div className="agloInfo" onClick={sortClick}>
                         <b>Sorting</b><br/>
-                        This feature is to help you understand how sorting algorithms work. You can see the insertion, the bubble, the selection or the quick sort algorithm in action. You can also compare two algorithms together to see which one is better.  
+                        This feature is to help you understand how sorting algorithms work. You can see the insertion, the bubble, the selection or the quick sort algorithms in action. You can also compare two algorithms together to see which one is better.  
                     </div>
                     <div className="agloInfo" onClick={backtrackingClick}>
                         <b>Backtracking</b><br/>
