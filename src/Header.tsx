@@ -25,7 +25,6 @@ export default function Header(props: {nav: Props, tab: number}){
 function LinkTab(props: {label: string, href: string, nav: Props}) {
     return (
       <Tab
-        component="a"
         onClick={() => {
           props.nav.history.push(props.href);
         }}
