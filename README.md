@@ -4,33 +4,8 @@ This project is a web application to visualize sorting, pathfinding and backtrac
 
 ## Try it live!
 
-https://www.algorization.com/
+[https://happy-beach-060510210.1.azurestaticapps.net](https://happy-beach-060510210.1.azurestaticapps.net)
 
-## Installation 
+## Demo
 
-* Download the source code
-* run npm install
-* run npm start
-
-## Quick look
-
-**Pathfinding page**
-
-![GitHub Image](public/images/pathfinding.png)
-
-**Pathfinding compare page**
-
-![GitHub Image](public/images/pathfindingCompare.png)
-
-**Sorting page**
-
-![GitHub Image](public/images/sorting.png)
-
-**Sorting compare page**
-
-![GitHub Image](public/images/sortingCompare.png)
-
-**Backtracking page**
-
-![GitHub Image](public/images/backtracking.png)
-
+[algorizationDemo.webm](https://github.com/G0MMY/Algorization/assets/83890663/1a387c88-90e0-440d-a1c6-48fb93e513c8)
